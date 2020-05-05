@@ -1,5 +1,7 @@
-Examen NODE JS
+Examen NODE JS - Lilian Séon
 ===============
+
+La partie websocket ne passe pas le test mais cela fonctionne bien quand on lance dans un navigateur
 
 **Notes générales :**
 

@@ -17,14 +17,27 @@
         <script>
             let user;
             let mySocket
+            var historique = [];
+            var toDisplay = [];
             function connect() {
-                mySocket= new WebSocket('ws://localhost:3001');
+                mySocket= new WebSocket('ws://localhost:3003');
+                if(localStorage.Historique){
+                    localStorage.Historique.split(',').forEach(message => {
+                        toDisplay.push(message);
+                    });
+                    console.log(toDisplay);
+                    toDisplay.forEach(message => {
+                        const newDiv = document.createElement('div');
+                        newDiv.append(message);
+                        document.getElementsByClassName('chat-content')[0].appendChild(newDiv);
+                    });
+                }
                 mySocket.onmessage = (messageEvent) => {
                     let data;
                     try {
                         data = JSON.parse(messageEvent.data);
                     } catch(err) {
-                        data = [messageEvent.data];
+                        data = toDisplay;
                     }
                     data.forEach(message => {
                         const newDiv = document.createElement('div');
@@ -38,6 +51,8 @@
                 const message = document.getElementsByName('chat-message')[0].value;
                 mySocket.send(message);
                 document.getElementsByName('chat-message')[0].value = '';
+                historique.push(message)
+                localStorage.setItem('Historique', historique);
             }
         </script>
     </body>
